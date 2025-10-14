@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { auth, signOut } from '@/lib/auth';
+// import { auth, signOut } from '@/lib/auth';
 import Image from 'next/image';
 import {
   DropdownMenu,
@@ -12,8 +12,8 @@ import {
 import Link from 'next/link';
 
 export async function User() {
-  let session = await auth();
-  let user = session?.user;
+  // let session = await auth();
+  // let user = session?.user;
 
   return (
     <DropdownMenu>
@@ -24,7 +24,7 @@ export async function User() {
           className="overflow-hidden rounded-full"
         >
           <Image
-            src={user?.image ?? '/placeholder-user.jpg'}
+            src={'/placeholder-user.jpg'}
             width={36}
             height={36}
             alt="Avatar"
@@ -38,14 +38,9 @@ export async function User() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        {user ? (
+        {true ? (
           <DropdownMenuItem>
-            <form
-              action={async () => {
-                'use server';
-                await signOut();
-              }}
-            >
+            <form>
               <button type="submit">Sign Out</button>
             </form>
           </DropdownMenuItem>

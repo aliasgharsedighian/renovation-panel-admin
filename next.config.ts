@@ -10,6 +10,9 @@ export default {
         protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com',
         search: ''
+      },
+      {
+        hostname: 'localhost'
       }
     ]
   }

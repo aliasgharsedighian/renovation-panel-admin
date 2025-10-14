@@ -10,32 +10,35 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { SelectProduct } from '@/lib/db';
-import { deleteProduct } from './actions';
+import BooleanField from 'app/dashboard/components/table-field/booleanField';
 
-export function Product({ product }: { product: SelectProduct }) {
+export function Project({ project }: { project: any }) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
         <Image
-          alt="Product image"
+          alt="project image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={product.imageUrl}
+          src={project.coverImage.path}
           width="64"
         />
       </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
-      <TableCell>
-        <Badge variant="outline" className="capitalize">
-          {product.status}
-        </Badge>
-      </TableCell>
-      <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
-      <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
+      <TableCell className="font-medium">{project.id}</TableCell>
+      <TableCell>{project.title}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {product.availableAt.toLocaleDateString("en-US")}
+        <BooleanField status={project.published} />
       </TableCell>
+      <TableCell className="hidden md:table-cell">
+        <BooleanField status={project.isFeatured} />
+      </TableCell>
+      <TableCell className="hidden md:table-cell">
+        {project.implementCity}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">
+        {project.createdAt}
+      </TableCell>
+
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -48,7 +51,7 @@ export function Product({ product }: { product: SelectProduct }) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
-              <form action={deleteProduct}>
+              <form action={() => {}}>
                 <button type="submit">Delete</button>
               </form>
             </DropdownMenuItem>
