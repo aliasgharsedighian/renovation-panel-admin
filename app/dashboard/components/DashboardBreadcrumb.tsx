@@ -17,6 +17,8 @@ export function DashboardBreadcrumb() {
 
   const dashboard = segments[0];
   const segmentTwo = segments[1];
+  const segmentThree = segments[2];
+  const segmentFour = segments[3];
 
   return (
     <Breadcrumb className="hidden md:flex">
@@ -34,7 +36,11 @@ export function DashboardBreadcrumb() {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>All {segmentTwo}</BreadcrumbPage>
+          <BreadcrumbPage>
+            {!segmentThree && `All ${segmentTwo}`}
+            {segmentThree && !segmentFour && segmentThree}
+            {segmentThree && segmentFour && segmentFour}
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

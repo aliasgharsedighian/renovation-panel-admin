@@ -4,7 +4,7 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import BooleanField from 'app/dashboard/components/table-field/booleanField';
 import Link from 'next/link';
 
-export function Product({ product }: { product: any }) {
+export function Category({ category }: { category: any }) {
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -12,26 +12,16 @@ export function Product({ product }: { product: any }) {
           alt="Product image"
           className="aspect-square rounded-md object-cover"
           height="64"
-          src={product.images[0].path}
+          src={category.image}
           width="64"
         />
       </TableCell>
-      <TableCell>{product.id}</TableCell>
-      <TableCell className="font-medium">{product.title}</TableCell>
-      <TableCell>
-        <BooleanField status={product.show} />
-      </TableCell>
-      <TableCell className="hidden md:table-cell">{`${product.price}`}</TableCell>
-      <TableCell className="hidden md:table-cell">
-        <BooleanField status={product.stock} />
-      </TableCell>
-      <TableCell className="hidden md:table-cell">
-        {product.createdAt}
-      </TableCell>
+      <TableCell>{category.id}</TableCell>
+      <TableCell className="font-medium">{category.name}</TableCell>
 
       <TableCell>
         <div className="flex items-center gap-2">
-          <Link href={`/dashboard/products/${product.id}/edit`}>
+          <Link href={`/dashboard/products/${category.id}/edit`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

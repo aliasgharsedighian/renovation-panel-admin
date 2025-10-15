@@ -1,5 +1,5 @@
-import CreateProductForm from './components/CreateProductForm';
 import { cookies } from 'next/headers';
+import ProductForm from '../components/ProductForm';
 
 const getAllProductCategories = async () => {
   const res = await fetch(
@@ -19,7 +19,13 @@ export default async function AddProductPage() {
   return (
     <div className="w-full mx-auto p-2 md:p-8">
       <h1 className="text-3xl font-bold mb-8">Add Product</h1>
-      <CreateProductForm categories={categories} token={token} />
+      <ProductForm
+        categories={categories.productCategories}
+        token={token}
+        product={null}
+        action="create"
+        revalidateData={null}
+      />
     </div>
   );
 }
