@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 // import { auth, signOut } from '@/lib/auth';
 import Image from 'next/image';
@@ -10,8 +12,9 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import { handleLogout } from 'app/lib/handleLogout';
 
-export async function User() {
+export function User() {
   // let session = await auth();
   // let user = session?.user;
 
@@ -35,20 +38,22 @@ export async function User() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
+        {/* <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        {true ? (
-          <DropdownMenuItem>
-            <form>
-              <button type="submit">Sign Out</button>
-            </form>
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem>
-            <Link href="/login">Sign In</Link>
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuSeparator /> */}
+
+        <DropdownMenuItem>
+          <Button
+            className="w-full"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogout('token');
+            }}
+          >
+            Sign Out
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

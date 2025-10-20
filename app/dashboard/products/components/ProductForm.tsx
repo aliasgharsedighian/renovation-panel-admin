@@ -483,7 +483,7 @@ function ProductForm({
               </div>
             )}
             <Button asChild variant="secondary">
-              <Link href="/dashboard/products">Cancel</Link>
+              <Link href="/dashboard/products?page=1">Cancel</Link>
             </Button>
           </div>
         </form>

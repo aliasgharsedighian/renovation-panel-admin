@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -19,6 +19,13 @@ import { toast } from 'sonner';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
+interface Props {
+  token: string | undefined;
+  category: any;
+  action: 'edit' | 'create';
+  revalidateData: any;
+}
+
 // 🧩 Zod schema
 const categorySchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -31,7 +38,12 @@ const categorySchema = z.object({
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
 
-function CategoryProductForm({ token }: { token: string | undefined }) {
+function CategoryProductForm({
+  token,
+  category,
+  action,
+  revalidateData
+}: Props) {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -39,12 +51,19 @@ function CategoryProductForm({ token }: { token: string | undefined }) {
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: '',
+      name: category?.name || '',
       image: null
     }
   });
 
-  const onSubmit = async (data: CategoryFormValues) => {
+  useEffect(() => {
+    if (category?.image) {
+      const existing = category.image;
+      setPreview(existing);
+    }
+  }, [category]);
+
+  const onCreateSubmit = async (data: CategoryFormValues) => {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${token}`);
 
@@ -74,6 +93,33 @@ function CategoryProductForm({ token }: { token: string | undefined }) {
     }
   };
 
+  const onEditSubmit = async (data: CategoryFormValues) => {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    const formData = new FormData();
+    formData.append('name', data.name);
+    if (selectedFile) formData.append('image', selectedFile);
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}shop/edit-product-category/${category.id}`,
+      {
+        method: 'POST',
+        headers: myHeaders,
+        body: formData
+      }
+    );
+
+    const response = await res.json();
+
+    if (response.statusCode === 200) {
+      toast.success(response.message || '✅ Category updated successfully');
+      revalidateData();
+    } else {
+      toast.error(response.message || '❌ Something went wrong');
+    }
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -89,7 +135,14 @@ function CategoryProductForm({ token }: { token: string | undefined }) {
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={
+          action === 'create'
+            ? form.handleSubmit(onCreateSubmit)
+            : form.handleSubmit(onEditSubmit)
+        }
+        className="space-y-8"
+      >
         {/* Name */}
         <FormField
           control={form.control}
@@ -164,7 +217,7 @@ function CategoryProductForm({ token }: { token: string | undefined }) {
             Create Category
           </Button>
           <Button asChild variant="secondary">
-            <Link href="/dashboard/products">Cancel</Link>
+            <Link href="/dashboard/products?page=1">Cancel</Link>
           </Button>
         </div>
       </form>

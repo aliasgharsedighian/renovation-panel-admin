@@ -21,7 +21,7 @@ export function Category({ category }: { category: any }) {
 
       <TableCell>
         <div className="flex items-center gap-2">
-          <Link href={`/dashboard/products/${category.id}/edit`}>
+          <Link href={`/dashboard/products/categories/${category.id}/edit`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

@@ -32,8 +32,18 @@ import { DashboardBreadcrumb } from './components/DashboardBreadcrumb';
 
 const dashboardLinks = [
   { id: 1, href: '/dashboard', label: 'Dashboard', icon: Home },
-  { id: 2, href: '/dashboard/products', label: 'Products', icon: Package },
-  { id: 3, href: '/dashboard/projects', label: 'Projects', icon: Package2 }
+  {
+    id: 2,
+    href: '/dashboard/products?page=1',
+    label: 'Products',
+    icon: Package
+  },
+  {
+    id: 3,
+    href: '/dashboard/projects?page=1',
+    label: 'Projects',
+    icon: Package2
+  }
 ];
 
 export default function DashboardLayout({

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import ProductForm from '../../components/ProductForm';
 import { revalidatePath } from 'next/cache';
+import { notFound } from 'next/navigation';
 
 const getAllProductCategories = async () => {
   const res = await fetch(
@@ -29,7 +30,11 @@ const getProduct = async (id: string) => {
     `${process.env.SERVER_ADDRESS}shop/show-admin-product/${id}`,
     requestOptions
   );
+
   const product = await res.json();
+  if (product.statusCode === 404) {
+    return notFound();
+  }
   return product.data;
 };
 
