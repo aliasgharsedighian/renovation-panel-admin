@@ -38,16 +38,12 @@ const categorySchema = z.object({
 
 type CategoryFormValues = z.infer<typeof categorySchema>;
 
-function CategoryProductForm({
+function CategoryArticleForm({
   token,
   category,
   action,
   revalidateData
 }: Props) {
-  const [preview, setPreview] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
@@ -56,27 +52,21 @@ function CategoryProductForm({
     }
   });
 
-  useEffect(() => {
-    if (category?.image) {
-      const existing = category.image;
-      setPreview(existing);
-    }
-  }, [category]);
-
   const onCreateSubmit = async (data: CategoryFormValues) => {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append('Content-Type', 'application/json');
 
-    const formData = new FormData();
-    formData.append('name', data.name);
-    if (selectedFile) formData.append('image', selectedFile);
+    const rawBody = JSON.stringify({
+      name: data.name
+    });
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}shop/add-product-category`,
+      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}article/add-article-category`,
       {
         method: 'POST',
         headers: myHeaders,
-        body: formData
+        body: rawBody
       }
     );
 
@@ -85,9 +75,7 @@ function CategoryProductForm({
     if (response.statusCode === 201) {
       toast.success(response.message || '✅ Category created successfully');
       form.reset();
-      setPreview(null);
-      setSelectedFile(null);
-      redirect('/dashboard/products');
+      redirect('/dashboard/articles/categories?page=1');
     } else {
       toast.error(response.message || '❌ Something went wrong');
     }
@@ -96,17 +84,18 @@ function CategoryProductForm({
   const onEditSubmit = async (data: CategoryFormValues) => {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append('Content-Type', 'application/json');
 
-    const formData = new FormData();
-    formData.append('name', data.name);
-    if (selectedFile) formData.append('image', selectedFile);
+    const rawBody = JSON.stringify({
+      name: data.name
+    });
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}shop/edit-product-category/${category.id}`,
+      `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}article/edit-article-category/${category.id}`,
       {
         method: 'POST',
         headers: myHeaders,
-        body: formData
+        body: rawBody
       }
     );
 
@@ -120,19 +109,6 @@ function CategoryProductForm({
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setSelectedFile(file);
-    setPreview(URL.createObjectURL(file));
-    form.setValue('image', file);
-  };
-
-  const removeImage = () => {
-    setPreview(null);
-    setSelectedFile(null);
-    form.setValue('image', null);
-  };
   return (
     <Form {...form}>
       <form
@@ -162,62 +138,12 @@ function CategoryProductForm({
           )}
         />
 
-        {/* Image */}
-        <FormField
-          control={form.control}
-          name="image"
-          render={() => (
-            <FormItem className="w-full">
-              <FormLabel>Image</FormLabel>
-              <FormControl>
-                <div className="space-y-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className=""
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    + Add Image
-                  </Button>
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-
-                  {/* Preview */}
-                  {preview && (
-                    <div className="relative w-full sm:w-64 h-40 border rounded-lg overflow-hidden">
-                      <img
-                        src={preview}
-                        alt="Preview"
-                        className="w-full h-full object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={removeImage}
-                        className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700 transition"
-                      >
-                        <X size={16} />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="flex items-center gap-6">
           <Button type="submit" className="font-medium">
             {action} Category
           </Button>
           <Button asChild variant="secondary">
-            <Link href="/dashboard/products?page=1">Cancel</Link>
+            <Link href="/dashboard/articles?page=1">Cancel</Link>
           </Button>
         </div>
       </form>
@@ -225,4 +151,4 @@ function CategoryProductForm({
   );
 }
 
-export default CategoryProductForm;
+export default CategoryArticleForm;

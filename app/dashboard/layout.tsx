@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {
   Home,
   LineChart,
+  Newspaper,
   Package,
   Package2,
   PanelLeft,
@@ -40,6 +41,12 @@ const dashboardLinks = [
   },
   {
     id: 3,
+    href: '/dashboard/articles?page=1',
+    label: 'Articles',
+    icon: Newspaper
+  },
+  {
+    id: 4,
     href: '/dashboard/projects?page=1',
     label: 'Projects',
     icon: Package2
