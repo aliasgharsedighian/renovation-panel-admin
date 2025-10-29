@@ -45,7 +45,7 @@ export function ProductsTable({
           <TableHeader>
             <TableRow>
               <TableHead className="hidden w-[100px] sm:table-cell">
-                Image
+                Cover Image
               </TableHead>
               <TableHead>ID</TableHead>
               <TableHead>Title</TableHead>

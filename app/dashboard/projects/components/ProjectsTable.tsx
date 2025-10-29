@@ -46,9 +46,9 @@ export function ProjectsTable({
               <TableHead className="hidden w-[100px] sm:table-cell">
                 Cover Image
               </TableHead>
-              <TableHead>id</TableHead>
-              <TableHead>title</TableHead>
-              <TableHead className="hidden md:table-cell">published</TableHead>
+              <TableHead>Id</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead className="hidden md:table-cell">Published</TableHead>
               <TableHead className="hidden md:table-cell">Featured</TableHead>
               <TableHead className="hidden md:table-cell">
                 Implement City
