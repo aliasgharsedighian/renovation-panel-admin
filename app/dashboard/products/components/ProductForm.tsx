@@ -133,7 +133,7 @@ function ProductForm({
       form.reset();
       setPreviewImages([]);
       setSelectedFiles([]);
-      redirect('/dashboard/products');
+      redirect('/dashboard/products?page=1');
     } else {
       toast.error(response.message || '❌ Error creating product');
     }

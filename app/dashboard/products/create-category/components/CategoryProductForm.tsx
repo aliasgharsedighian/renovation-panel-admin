@@ -104,7 +104,7 @@ function CategoryProductForm({
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}shop/edit-product-category/${category.id}`,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: myHeaders,
         body: formData
       }
