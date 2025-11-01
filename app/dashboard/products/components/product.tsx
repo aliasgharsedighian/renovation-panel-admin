@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import BooleanField from 'app/dashboard/components/table-field/booleanField';
 import Link from 'next/link';
+import { toShamsiDate } from 'app/lib/toShamiDate';
 
 export function Product({ product }: { product: any }) {
   return (
@@ -26,7 +27,7 @@ export function Product({ product }: { product: any }) {
         <BooleanField status={product.stock} />
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        {product.createdAt}
+        {toShamsiDate(product.createdAt)}
       </TableCell>
 
       <TableCell>

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import BooleanField from 'app/dashboard/components/table-field/booleanField';
 import Link from 'next/link';
+import { toShamsiDate } from 'app/lib/toShamiDate';
 
 export function Article({ article }: { article: any }) {
   return (
@@ -30,7 +31,7 @@ export function Article({ article }: { article: any }) {
       <TableCell className="hidden md:table-cell">{`${article.category.name}`}</TableCell>
 
       <TableCell className="hidden md:table-cell">
-        {article.createdAt}
+        {toShamsiDate(article.createdAt)}
       </TableCell>
 
       <TableCell>

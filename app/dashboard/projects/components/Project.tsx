@@ -12,6 +12,7 @@ import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import BooleanField from 'app/dashboard/components/table-field/booleanField';
 import Link from 'next/link';
+import { toShamsiDate } from 'app/lib/toShamiDate';
 
 export function Project({ project }: { project: any }) {
   return (
@@ -37,7 +38,7 @@ export function Project({ project }: { project: any }) {
         {project.implementCity}
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        {project.createdAt}
+        {toShamsiDate(project.createdAt)}
       </TableCell>
 
       <TableCell>
